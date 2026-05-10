@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Transfer - Document Printing Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <img src="images/logo.png" alt="Nexus" class="logo-image">
+        </div>
+
+        <div class="nav-right">
+            <button class="settings-btn" onclick="navigateTo('settings-page')">⚙️</button>
+        </div>
+    </header>
+
+   
+    <!-- Upload Page -->
+        <section id="upload" class="page">
+            <div class="page-header">
+                <h1>Upload Document</h1>
+            </div>
+            <div class="upload-content">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <p class="upload-text">Drag & drop your file here</p>
+                    <button class="btn-primary" onclick="document.getElementById('fileInput').click()">Choose File</button>
+                    <input type="file" id="fileInput" style="display: none;" accept=".pdf,.doc,.docx,.jpg,.png" />
+                </div>
+
+                <div class="uploaded-files" id="uploadedFiles"></div>
+                <div class="upload-stats"><p>Total Pages: <span id="totalPages">0</span></p></div>
+
+                <div class="upload-actions">
+                    <button class="btn-secondary" onclick="navigateTo('upload')">Cancel</button>
+                    <button class="btn-primary" onclick="navigateTo('settings')">Next</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Print Settings Page -->
+        <section id="settings" class="page">
+            <div class="page-header">
+                <h1>Print Settings</h1>
+            </div>
+            <div class="settings-content">
+                <div class="settings-panel">
+                    <div class="settings-section">
+                        <h3>Printing Options</h3>
+                        <div class="option-group">
+                            <label class="radio-option">
+                                <input type="radio" name="colorMode" value="color" checked>
+                                <span class="color-box" style="background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #FFE66D);"></span>
+                                <span>Color</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="colorMode" value="bw">
+                                <span class="color-box" style="background: linear-gradient(135deg, #000, #999, #FFF);"></span>
+                                <span>B&W</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="colorMode" value="custom">
+                                <span class="color-box" style="background: linear-gradient(135deg, #9b59b6, #6a1cbf, #8e44ec);"></span>
+                                <span>Custom</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Orientation</h3>
+                        <div class="option-group">
+                            <label class="radio-option">
+                                <input type="radio" name="orientation" value="front" checked>
+                                <span>Front Only</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="orientation" value="double">
+                                <span>Double Side</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Copies</h3>
+                        <div class="copies-control">
+                            <button class="copy-btn" onclick="decreaseCopies()">−</button>
+                            <span class="copies-value" id="copiesValue">1</span>
+                            <button class="copy-btn" onclick="increaseCopies()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Page Range</h3>
+                        <div class="radio-option-group">
+                            <label class="radio-option">
+                                <input type="radio" name="pageRange" value="all" checked onchange="togglePageRangeInput()">
+                                <span>All Pages</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="pageRange" value="custom" onchange="togglePageRangeInput()">
+                                <span>Custom Range</span>
+                            </label>
+                        </div>
+                        <div class="page-range-input" id="pageRangeInput" style="display: none; margin-top: 15px;">
+                            <input type="text" placeholder="e.g., 1-5, 10, 15-20" class="range-field" id="customRange">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-preview">
+                    <div class="preview-label">Preview</div>
+                    <div class="preview-area">
+                        <div class="page-preview"></div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn-secondary" onclick="navigateTo('upload')">Back</button>
+                    <button class="btn-primary" onclick="saveSettingsAndContinue()">Save & Continue</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Page -->
+        <section id="payment" class="page">
+            <div class="page-header">
+                <h1>Payment</h1>
+            </div>
+            <div class="payment-content">
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-item">
+                        <span>File Name</span>
+                        <span class="summary-value">No file</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Copies</span>
+                        <span class="summary-value">1</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Amount</span>
+                        <span class="summary-value">₹ 0.00</span>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <h3>Pay Using UPI</h3>
+                    <div class="upi-section">
+                        <p class="upi-id">nexustransfer@okhdfcbank</p>
+                        <img src="images/download-removebg-preview (1).png" alt="QR" class="qr-payment">
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Or Pay Using</h3>
+                    <div class="payment-apps">
+                        <button class="payment-btn">Google Pay</button>
+                        <button class="payment-btn">Paytm</button>
+                        <button class="payment-btn">PhonePe</button>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; margin-top: 20px;">Pay Now</button>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn-secondary" onclick="navigateTo('settings')">Back</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Success Page -->
+        <section id="payment-success" class="page">
+            <div class="page-header">
+                <h1>Payment Successful</h1>
+            </div>
+            <div class="payment-success-content">
+                <img src="images/printing  mac.png" alt="Payment Success" class="success-image">
+                <p class="success-message">Your payment is confirmed. Your document is now queued for printing.</p>
+                <div class="order-summary">
+                    <div class="summary-item">
+                        <span>File Name</span>
+                        <span id="successFileName" class="summary-value">No file</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Copies</span>
+                        <span id="successCopies" class="summary-value">1</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Amount</span>
+                        <span id="successAmount" class="summary-value">₹ 0.00</span>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="navigateTo('status')">View Status</button>
+                <button class="btn-secondary" onclick="navigateTo('upload')" style="margin-top: 12px;">New Upload</button>
+            </div>
+        </section>
+
+        <!-- Status Page -->
+        <section id="status" class="page">
+            <div class="page-header status-header">
+                
+                <h1>Print Status</h1>
+            </div>
+            <div class="status-content">
+                <div class="status-timeline">
+                    <div class="status-item completed">
+                        <div class="status-circle">✓</div>
+                        <div class="status-info">
+                            <p class="status-label">Order Placed</p>
+                            <p class="status-time">10:24 AM</p>
+                        </div>
+                    </div>
+                    <div class="status-line"></div>
+
+                    <div class="status-item completed">
+                        <div class="status-circle">✓</div>
+                        <div class="status-info">
+                            <p class="status-label">Payment Successful</p>
+                            <p class="status-time">10:24 AM</p>
+                        </div>
+                    </div>
+                    <div class="status-line"></div>
+
+                    <div class="status-item pending">
+                        <div class="status-circle"></div>
+                        <div class="status-info">
+                            <p class="status-label">Printing</p>
+                            <p class="status-time">In Progress</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="navigateTo('upload')" style="margin-top: 30px;">Go to Upload</button>
+            </div>
+        </section>
+
+        <!-- Settings Page -->
+        <section id="settings-page" class="page">
+            <div class="page-header">
+                <h1>Settings</h1>
+            </div>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Language</label>
+                    <select>
+                        <option>English</option>
+                        <option>Tamil</option>
+                    </select>
+                </div>
+                <button class="btn-primary">Save</button>
+            </div>
+        </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
