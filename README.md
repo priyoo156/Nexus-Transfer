@@ -1,24 +1,7 @@
-# Nexus Transfer
-
-A Flask-based document printing workflow with QR-based order tracking, admin management, and upload handling.
-
-## Features
-- Customer upload and print request flow
-- QR code order tracking
-- Admin dashboard and scanner support
-- SQLite-backed order storage
-
-## Run locally
-1. Install dependencies: pip install -r requirements.txt
-2. Start the app: python app.py
-3. Open http://127.0.0.1:5000
-
-## Deploy to Render / Heroku-style hosts
-- The project includes Procfile and runtime.txt for compatible hosting services.
-- Set PORT and optionally FLASK_DEBUG for the runtime environment.
-
-## Tests
-- python -m unittest discover -s tests -v
+<<<<<<< HEAD
+# Nexus-Transfer
+=======
+# 📚 NEXUS PRINTING SYSTEM - COMPLETE DOCUMENTATION INDEX
 
 ## 🎯 START HERE
 

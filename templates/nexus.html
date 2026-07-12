@@ -623,21 +623,21 @@
             </div>
             <span class="status-badge badge-done">Done</span>
           </div>
-          <div class="status-item">
-            <div class="status-dot active"></div>
+          <div class="status-item" id="status-step-scan">
+            <div class="status-dot active" id="status-scan-dot"></div>
             <div class="status-info">
-              <div class="status-name">Waiting for machine scan</div>
-              <div class="status-time">Walk to the Nexus printer &amp; scan your token</div>
+              <div class="status-name" id="status-scan-name">Waiting for machine scan</div>
+              <div class="status-time" id="status-scan-time">Walk to the Nexus printer &amp; scan your token</div>
             </div>
-            <span class="status-badge badge-active">Pending scan</span>
+            <span class="status-badge badge-active" id="status-scan-badge">Pending scan</span>
           </div>
-          <div class="status-item">
-            <div class="status-dot pending"></div>
+          <div class="status-item" id="status-step-print">
+            <div class="status-dot pending" id="status-print-dot"></div>
             <div class="status-info">
-              <div class="status-name">Printing &amp; ready for pickup</div>
-              <div class="status-time">~2 min after scan</div>
+              <div class="status-name" id="status-print-name">Printing &amp; ready for pickup</div>
+              <div class="status-time" id="status-print-time">~2 min after scan</div>
             </div>
-            <span class="status-badge badge-pending">Upcoming</span>
+            <span class="status-badge badge-pending" id="status-print-badge">Upcoming</span>
           </div>
         </div>
       </div>
@@ -1103,6 +1103,7 @@ async function payNow() {
       totalAmount: total,
       timestamp
     });
+    startStatusPolling(orderId);
 
   } catch (error) {
 
@@ -1114,6 +1115,118 @@ async function payNow() {
 
 
 let qrInstance = null;
+let activeOrderStatusTimer = null;
+let activeOrderId = null;
+
+function startStatusPolling(orderId) {
+  const token = normalizeOrderToken(orderId);
+  if (!token) return;
+
+  if (activeOrderStatusTimer) clearInterval(activeOrderStatusTimer);
+  activeOrderId = token;
+  updateOrderStatus(token);
+  activeOrderStatusTimer = setInterval(() => updateOrderStatus(token), 3000);
+}
+
+function stopStatusPolling() {
+  if (activeOrderStatusTimer) {
+    clearInterval(activeOrderStatusTimer);
+    activeOrderStatusTimer = null;
+  }
+  activeOrderId = null;
+}
+
+function normalizeOrderToken(value) {
+  if (value === null || value === undefined) return null;
+  const token = String(value).trim().toUpperCase();
+  return /^NEXUS-[A-Z0-9]{8}$/.test(token) ? token : null;
+}
+
+async function updateOrderStatus(token) {
+  const cleanToken = normalizeOrderToken(token);
+  if (!cleanToken) return;
+
+  try {
+    const response = await fetch('/status/' + encodeURIComponent(cleanToken));
+    const data = await response.json();
+    if (!response.ok || data.success === false) throw new Error(data.error || 'Status lookup failed');
+    renderOrderStatus(data.status || 'Pending');
+  } catch (error) {
+    console.error('Status refresh failed:', error);
+  }
+}
+
+function renderOrderStatus(status) {
+  const normalized = String(status || 'Pending').trim().toLowerCase();
+
+  const scanState = normalized === 'completed' ? {
+    dot: 'done',
+    badgeClass: 'badge-done',
+    badgeText: 'Done',
+    name: 'Print completed',
+    time: 'Please collect your document from the machine'
+  } : normalized === 'printing' ? {
+    dot: 'active',
+    badgeClass: 'badge-active',
+    badgeText: 'Printing',
+    name: 'Printing in progress',
+    time: 'Your document is being processed now'
+  } : {
+    dot: 'active',
+    badgeClass: 'badge-active',
+    badgeText: 'Pending scan',
+    name: 'Waiting for machine scan',
+    time: 'Walk to the Nexus printer & scan your token'
+  };
+
+  const printState = normalized === 'completed' ? {
+    dot: 'done',
+    badgeClass: 'badge-done',
+    badgeText: 'Ready',
+    name: 'Ready for pickup',
+    time: 'Collect your printout from the machine'
+  } : normalized === 'printing' ? {
+    dot: 'pending',
+    badgeClass: 'badge-pending',
+    badgeText: 'In progress',
+    name: 'Printing & ready for pickup',
+    time: 'Please wait while the printer finishes'
+  } : {
+    dot: 'pending',
+    badgeClass: 'badge-pending',
+    badgeText: 'Upcoming',
+    name: 'Printing & ready for pickup',
+    time: '~2 min after scan'
+  };
+
+  updateStatusStep('status-scan-dot', 'status-scan-badge', 'status-scan-name', 'status-scan-time', scanState);
+  updateStatusStep('status-print-dot', 'status-print-badge', 'status-print-name', 'status-print-time', printState);
+}
+
+function updateStatusStep(dotId, badgeId, nameId, timeId, state) {
+  const dot = document.getElementById(dotId);
+  const badge = document.getElementById(badgeId);
+  const name = document.getElementById(nameId);
+  const time = document.getElementById(timeId);
+
+  if (dot) {
+    dot.className = 'status-dot ' + state.dot;
+    if (state.dot === 'done') {
+      dot.innerHTML = '<i class="ti ti-check" style="font-size:13px;"></i>';
+    } else {
+      dot.innerHTML = '';
+    }
+  }
+
+  if (badge) {
+    badge.className = 'status-badge ' + state.badgeClass;
+    badge.textContent = state.badgeText;
+  }
+
+  if (name) name.textContent = state.name;
+  if (time) time.textContent = state.time;
+}
+
 function generateQR(order) {
   const wrap = document.getElementById('qrWrap');
   const orderId = String(order.orderId || '').trim().toUpperCase();

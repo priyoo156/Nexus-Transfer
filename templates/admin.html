@@ -810,15 +810,25 @@ async function loadOrders() {
       const filename = escapeHtml(order.filename || order.file || 'document.pdf');
       const copies = escapeHtml(order.copies || 1);
       const mode = escapeHtml(order.color || order.mode || 'B&W');
+      const status = String(order.status || 'Pending').trim();
+      const normalizedStatus = status.toLowerCase();
+      let actionHtml = '';
+
+      if (normalizedStatus === 'completed') {
+        actionHtml = `<span style="padding:8px 12px;border-radius:999px;background:#dcfce7;color:#166534;font-size:12px;font-weight:600;">Completed</span>`;
+      } else if (normalizedStatus === 'printing') {
+        actionHtml = `<span style="padding:8px 12px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:600;">Printing</span>`;
+      } else {
+        actionHtml = `<button onclick="event.stopPropagation();startPrint('${token}')" style="padding:8px 14px;border:none;border-radius:8px;background:#2563eb;color:white;cursor:pointer;">Start Print</button>`;
+      }
+
       return `
         <div class="order-row">
           <div onclick="switchTab('manual');document.getElementById('manualToken').value='${token.replace('NEXUS-', '')}';lookupToken();" style="cursor:pointer;flex:1">
             <div class="order-row-token">${token}</div>
             <div class="order-row-file">${filename} · ${copies} copy · ${mode}</div>
           </div>
-          <button onclick="event.stopPropagation();startPrint('${token}')" style="padding:8px 14px;border:none;border-radius:8px;background:#2563eb;color:white;cursor:pointer;">
-            Start Print
-          </button>
+          ${actionHtml}
         </div>
       `;
     }).join('');

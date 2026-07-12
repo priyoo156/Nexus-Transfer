@@ -37,6 +37,22 @@ class TokenAndQrValidationTests(unittest.TestCase):
         template = Path('templates/nexus.html').read_text(encoding='utf-8')
         self.assertIn("/^NEXUS-[A-Z0-9]{8}$/", template)
 
+    def test_admin_orders_hides_start_button_for_completed_orders(self):
+        template = Path('templates/admin.html').read_text(encoding='utf-8')
+        self.assertIn("normalizedStatus === 'completed'", template)
+        self.assertIn("Completed</span>", template)
+
+    def test_public_status_endpoint_reflects_admin_start_print(self):
+        with self.client.session_transaction() as session:
+            session['admin'] = True
+
+        response = self.client.post('/start-print/NEXUS-ABC12345')
+        self.assertEqual(response.status_code, 200)
+
+        status_response = self.client.get('/status/NEXUS-ABC12345')
+        self.assertEqual(status_response.status_code, 200)
+        self.assertEqual(status_response.get_json()['status'], 'Printing')
+
 
 if __name__ == '__main__':
     unittest.main()

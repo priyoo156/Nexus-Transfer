@@ -706,6 +706,45 @@ def get_order(token):
         close_db(conn)
 
 
+@app.route('/status/<token>')
+def get_order_status(token):
+    """Return the latest public status for a print order."""
+    clean_token = validate_token(token)
+
+    if not clean_token:
+        return jsonify({
+            "success": False,
+            "error": "Invalid token format"
+        }), 400
+
+    conn = get_db()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT status FROM orders WHERE order_id = ?", (clean_token,))
+        row = cursor.fetchone()
+
+        if not row:
+            return jsonify({
+                "success": False,
+                "error": "Order not found"
+            }), 404
+
+        status = row["status"] or "Pending"
+        return jsonify({
+            "success": True,
+            "token": clean_token,
+            "status": status
+        })
+    except sqlite3.Error as e:
+        logger.error(f"Database error fetching status {clean_token}: {e}")
+        return jsonify({
+            "success": False,
+            "error": "Database error"
+        }), 500
+    finally:
+        close_db(conn)
+
+
 @app.route('/orders')
 @admin_required
 def get_orders():
@@ -1286,12 +1325,10 @@ if __name__ == "__main__":
     logger.info(f"Token pattern: {TOKEN_PATTERN.pattern}")
     logger.info(f"Status transitions: Pending→Printing→Completed")
     logger.info("═" * 80)
-
-    port = int(os.environ.get("PORT", 5000))
-    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
-
-    if not os.environ.get("PORT"):
-        Timer(1, open_browser).start()
-
-    app.run(host="0.0.0.0", port=port, debug=debug)
+    
+    # Open browser after 1 second delay
+    Timer(1, open_browser).start()
+    
+    # Run development server
+    app.run(debug=True)
 
