@@ -1286,10 +1286,12 @@ if __name__ == "__main__":
     logger.info(f"Token pattern: {TOKEN_PATTERN.pattern}")
     logger.info(f"Status transitions: Pending→Printing→Completed")
     logger.info("═" * 80)
-    
-    # Open browser after 1 second delay
-    Timer(1, open_browser).start()
-    
-    # Run development server
-    app.run(debug=True)
+
+    port = int(os.environ.get("PORT", 5000))
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+
+    if not os.environ.get("PORT"):
+        Timer(1, open_browser).start()
+
+    app.run(host="0.0.0.0", port=port, debug=debug)
 
