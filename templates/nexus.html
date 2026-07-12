@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus — Asynchronous Printer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" onerror="window.NEXUS_QR_CDN_FAILED=true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+ 
+
+
+
+
+</head>
+<body>
+    <div class="page active" id="landing">
+        <nav class="nav">
+            <div class="nav-logo">
+                <div class="logo-mark">NE<span class="lx">X</span>US</div>
+                <div class="logo-tag">Asynchronous Printer</div>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#how">How it works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="nav-spacer">
+              <button class="nav-toggle" type="button" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-nav-ghost" onclick="goPage('pg-upload')">Sign in</button>
+                <button class="btn-nav-primary" onclick="goPage('pg-upload')">Start printing</button>
+            </div>
+        </nav>
+
+        <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+          <div class="drawer-backdrop" id="drawerBackdrop"></div>
+          <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div class="drawer-head">
+              <div class="drawer-logo">
+                <div class="logo-mark">NE<span class="lx">X</span>US</div>
+                <div class="logo-tag">Asynchronous Printer</div>
+              </div>
+              <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">
+                <i class="ti ti-x"></i>
+              </button>
+            </div>
+            <div class="drawer-links">
+              <a href="#home">Home</a>
+              <a href="#features">Features</a>
+              <a href="#how">How it works</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#contact">Contact</a>
+            </div>
+            <div class="drawer-actions">
+              <button class="btn-nav-ghost" onclick="goPage('pg-upload')">Sign in</button>
+              <button class="btn-nav-primary" onclick="goPage('pg-upload')">Start printing</button>
+            </div>
+          </div>
+        </div>
+    
+    <!--Hero section-->
+    <section class="hero">
+        <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Now serving Tiruppur colleges &nbsp;·&nbsp; Made for students
+      </div>
+      <h1>
+        The <em>smartest</em> way<br>
+        to <span class="blue-word">print</span> on campus.
+      </h1>
+      <p class="hero-sub">
+        Upload from your phone, mix colour &amp; B&amp;W pages, pay via UPI —
+        your document is ready before you reach the counter.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="goPage('pg-upload')">
+          <i class="ti ti-upload"></i> Upload &amp; print now
+        </button>
+        <button class="btn-outline">
+          <i class="ti ti-player-play"></i> See how it works
+        </button>
+      </div>
+      <div class="stats-strip">
+        <div class="stat-item">
+          <span class="stat-num">5,000+</span>
+          <span class="stat-lbl">Docs printed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num blue-stat">₹1/pg</span>
+          <span class="stat-lbl">Starting price</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">10 min</span>
+          <span class="stat-lbl">Avg. turnaround</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num blue-stat">4.9 ★</span>
+          <span class="stat-lbl">Student rating</span>
+        </div>
+      </div>
+    </div>
+</section>
+ <div class="section-divider"></div>
+ <!-- FEATURES -->
+  <section class="section" id="feat">
+    <div class="section-tag">Why Nexus</div>
+    <div class="section-title">Everything a student needs</div>
+    <div class="section-sub">No pen drives. No queues. No guesswork. Just upload and go.</div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon lav"><i class="ti ti-device-mobile"></i></div>
+        <div class="feat-title">Upload from your phone</div>
+        <div class="feat-desc">PDF, DOCX, JPG — send directly from your gallery, WhatsApp, or Drive.</div>
+      </div>
+      <div class="feat-card blue-top">
+        <div class="feat-icon blue"><i class="ti ti-currency-rupee"></i></div>
+        <div class="feat-title">Lowest price on campus</div>
+        <div class="feat-desc">Starting at ₹1 per page. Colour X lets you mix &amp; save on every order.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon lav"><i class="ti ti-bolt"></i></div>
+        <div class="feat-title">Fast turnaround</div>
+        <div class="feat-desc">Your print is queued the moment payment is confirmed — ready in minutes.</div>
+      </div>
+      <div class="feat-card blue-top">
+        <div class="feat-icon blue"><i class="ti ti-shield-check"></i></div>
+        <div class="feat-title">Private &amp; secure</div>
+        <div class="feat-desc">Files are auto-deleted after printing. Your data never stays on our servers.</div>
+      </div>
+    </div>
+  </section>
+    <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <div class="text-center">
+      <div class="section-tag">How it works</div>
+      <div class="section-title">Four steps to your print</div>
+    </div>
+    <div class="steps-row">
+      <div class="step-col">
+        <div class="step-number">01</div>
+        <div class="step-title">Upload your file</div>
+        <div class="step-desc">PDF, DOCX, JPG — any format accepted up to 50MB</div>
+      </div>
+      <div class="step-col">
+        <div class="step-number">02</div>
+        <div class="step-title">Choose settings</div>
+        <div class="step-desc">B&amp;W, Colour, or the exclusive Colour X mixed mode</div>
+      </div>
+      <div class="step-col">
+        <div class="step-number">03</div>
+        <div class="step-title">Pay via UPI</div>
+        <div class="step-desc">GPay, PhonePe, Paytm — instant payment confirmation</div>
+      </div>
+      <div class="step-col">
+        <div class="step-number">04</div>
+        <div class="step-title">Pick up your print</div>
+        <div class="step-desc">Walk in, collect, done — no waiting, no queue</div>
+      </div>
+    </div>
+  </section>
+  <!-- COLOUR X CALLOUT -->
+  <section class="cx-section" style="padding-top:72px;">
+    <div class="cx-block">
+      <div class="cx-icon-wrap"><i class="ti ti-layers-subtract"></i></div>
+      <div>
+        <div class="cx-label">
+          <span class="cx-title">Colour X</span>
+          <span class="cx-badge-new">Exclusive</span>
+        </div>
+        <p class="cx-desc">
+          Only on Nexus — specify exactly which pages you want in colour. All remaining pages
+          automatically print in B&amp;W. The printer processes both as separate jobs and delivers
+          one seamless output. Perfect for assignments with a few diagrams in a mostly text document.
+        </p>
+        <div class="cx-chips">
+          <span class="cx-chip chip-col"><i class="ti ti-palette" style="font-size:13px;"></i> Pages 1, 5, 8 → Colour @ ₹2</span>
+          <span class="cx-chip chip-bw"><i class="ti ti-printer" style="font-size:13px;"></i> Remaining 7 pages → B&amp;W @ ₹1</span>
+          <span class="cx-chip chip-col" style="background:var(--blue-50);color:var(--blue-700);border-color:var(--blue-100);">
+            <i class="ti ti-coins" style="font-size:13px;"></i> Total: ₹13 instead of ₹20
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- PRICING -->
+  <section class="section" id="pricing">
+    <div class="section-tag">Pricing</div>
+    <div class="section-title">Simple, honest rates</div>
+    <div class="section-sub">No hidden charges. No surprises. Pay exactly what you see.</div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-type">Black &amp; White</div>
+        <div class="price-amount">₹1 <span class="price-unit">/ page</span></div>
+        <div class="price-features">
+          <div class="price-feat-row"><i class="ti ti-check"></i> Single or double side</div>
+          <div class="price-feat-row"><i class="ti ti-check"></i> All file formats</div>
+          <div class="price-feat-row"><i class="ti ti-check"></i> Instant UPI payment</div>
+          <div class="price-feat-row"><i class="ti ti-check"></i> Live status tracking</div>
+        </div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most popular</div>
+        <div class="price-type">Colour X — mixed</div>
+        <div class="price-amount">₹1–2 <span class="price-unit">/ page</span></div>
+        <div class="price-features">
+          <div class="price-feat-row"><i class="ti ti-check blue-check"></i> Choose colour pages</div>
+          <div class="price-feat-row"><i class="ti ti-check blue-check"></i> Rest prints in B&amp;W</div>
+          <div class="price-feat-row"><i class="ti ti-check blue-check"></i> Best value for reports</div>
+          <div class="price-feat-row"><i class="ti ti-check blue-check"></i> Exclusive Nexus feature</div>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-type">Full colour</div>
+        <div class="price-amount">₹2 <span class="price-unit">/ page</span></div>
+        <div class="price-features">
+          <div class="price-feat-row"><i class="ti ti-check"></i> Vivid colour output</div>
+          <div class="price-feat-row"><i class="ti ti-check"></i> All paper sizes</div>
+          <div class="price-feat-row"><i class="ti ti-check"></i> Bulk discounts available</div>
+          <div class="price-feat-row"><i class="ti ti-check"></i> Priority queue option</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <div class="cta-inner">
+      <div class="cta-title">Ready to skip the queue?</div>
+      <p class="cta-sub">Join thousands of students who print smarter every day.</p>
+      <button class="btn-white" onclick="goPage('pg-upload')">
+        <i class="ti ti-upload"></i> Upload your first document
+      </button>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>
+      <div class="footer-brand">NEXUS</div>
+      <div class="footer-by">by NK Design House</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of use</a>
+      <a href="#">Support</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-copy">© 2024 NK Design House. All rights reserved.</div>
+  </footer>
+  </div>
+
+  <!--  PAGE 2 · UPLOAD + PRINT SETTINGS-->
+    <div class="page" id="pg-upload">
+  <nav class="nav">
+    <div class="nav-logo" onclick="goPage('landing')">
+      <div class="logo-mark">NE<span class="lx">X</span>US</div>
+      <div class="logo-tag">Asynchronous Printer</div>
+    </div>
+    <div class="nav-links">
+      <a href="#" onclick="goPage('landing')">Home</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-nav-ghost" onclick="goPage('landing')">← Back to home</button>
+    </div>
+  </nav>
+  <div class="app-shell">
+    <div class="app-container">
+        <!-- STEP PROGRESS -->
+      <div class="step-progress">
+        <div class="sp-step">
+          <div class="sp-dot active" id="sp1">1</div>
+          <div class="sp-label active" id="sl1">Upload</div>
+        </div>
+        <div class="sp-line" id="ln1"></div>
+        <div class="sp-step">
+          <div class="sp-dot" id="sp2">2</div>
+          <div class="sp-label" id="sl2">Settings</div>
+        </div>
+        <div class="sp-line" id="ln2"></div>
+        <div class="sp-step">
+          <div class="sp-dot" id="sp3">3</div>
+          <div class="sp-label" id="sl3">Pay</div>
+        </div>
+      </div>
+    <!-- STEP 1 — UPLOAD -->
+      <div id="step1">
+        <div class="card" style="margin-bottom:16px;">
+          <div class="settings-label" style="margin-bottom:16px;">Upload your document</div>
+
+          <div class="upload-zone" onclick="document.getElementById('fileInput').click()"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="handleDrop(event)">
+            <i class="ti ti-cloud-upload upload-big-icon"></i>
+            <div class="upload-title">Drop your file here, or click to browse</div>
+            <div class="upload-sub">PDF · DOCX · JPG · PNG &nbsp;—&nbsp; Max 50 MB</div>
+          </div>
+          <input type="file" id="fileInput" accept=".pdf,.docx,.jpg,.jpeg,.png" onchange="handleFile(this)">
+
+          <div class="file-pill" id="filePill">
+            <i class="ti ti-file-text file-pill-icon"></i>
+            <span class="file-pill-name" id="fileName">document.pdf</span>
+            <button class="file-review-btn" type="button" onclick="toggleFileReview(event)">
+              <i class="ti ti-eye"></i> Review
+            </button>
+            <i class="ti ti-x file-pill-remove" onclick="removeFile()"></i>
+          </div>
+
+          <div class="page-count-row" id="pageRow" style="display:none;">
+            <span class="pc-label"><i class="ti ti-file-description" style="vertical-align:-2px;margin-right:6px;color:var(--blue-500);"></i>Pages detected</span>
+            <span class="pc-value" id="pageCount">—</span>
+          </div>
+
+          <div class="file-review-panel" id="fileReview" style="display:none;">
+            <div class="file-review-head">
+              <div>
+                <div class="file-review-title">File review</div>
+                <div class="file-review-sub" id="fileReviewMeta">Preview selected document before printing</div>
+              </div>
+              <a class="file-review-open" id="fileReviewOpen" href="#" target="_blank" rel="noopener">
+                <i class="ti ti-external-link"></i>
+              </a>
+            </div>
+            <div class="file-review-body" id="fileReviewBody"></div>
+          </div>
+        </div>
+
+        <button class="btn-next" onclick="goStep(2)">
+          Continue to settings <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+      
+      <!-- STEP 2 — SETTINGS -->
+      <div id="step2" class="hidden">
+        <div class="card" style="margin-bottom:16px;">
+
+          <!-- Color Mode -->
+          <div class="settings-group">
+            <div class="settings-label">Color mode</div>
+            <div class="toggle-row">
+              <div class="tog-btn" id="tb-bw" onclick="selectMode('bw')">
+                <i class="ti ti-printer" style="display:block;font-size:16px;margin-bottom:3px;"></i>
+                B&amp;W only<br><span style="font-size:10px;font-weight:400;color:var(--ink-muted);">₹1 / page</span>
+              </div>
+              <div class="tog-btn" id="tb-col" onclick="selectMode('col')">
+                <i class="ti ti-palette" style="display:block;font-size:16px;margin-bottom:3px;"></i>
+                Colour<br><span style="font-size:10px;font-weight:400;color:var(--ink-muted);">₹2 / page</span>
+              </div>
+              <div class="tog-btn sel-lav" id="tb-cx" onclick="selectMode('cx')">
+                <i class="ti ti-layers-subtract" style="display:block;font-size:16px;margin-bottom:3px;"></i>
+                Colour X ✦<br><span style="font-size:10px;font-weight:400;opacity:.8;">Mixed pages</span>
+              </div>
+            </div>
+          <!-- COLOUR X PANEL -->
+            <div class="cx-panel" id="cxPanel">
+              <div class="cx-info-row">
+                <i class="ti ti-info-circle cx-info-icon"></i>
+                <div class="cx-info-text">
+                  <strong style="color:var(--lav-800);">How Colour X works:</strong> Type the page numbers you want in colour. All other pages print in B&amp;W automatically. The printer handles both jobs and delivers one combined output.
+                </div>
+              </div>
+              <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:6px;">Which pages need colour?</div>
+              <div class="cx-hint">Single pages (e.g. 3) or ranges (e.g. 5-8), comma separated</div>
+              <div class="cx-input-row">
+                <input class="cx-input" type="text" id="cxInput" placeholder="e.g. 1, 3, 5-8, 12">
+                <button class="cx-add-btn" onclick="addColPages()"><i class="ti ti-plus"></i> Add</button>
+              </div>
+              <div class="cx-chips-wrap" id="cxChips"></div>
+              <div class="cx-bw-note" id="cxBwNote"></div>
+              <div style="margin-top:14px;">
+                <div style="display:flex;gap:12px;font-size:11px;color:var(--ink-muted);margin-bottom:8px;">
+                  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--lav-100);border:1px solid var(--lav-200);display:inline-block;"></span> Colour</span>
+                  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f3f3f3;border:1px solid #ddd;display:inline-block;"></span> B&amp;W</span>
+                </div>
+                <div class="page-preview-wrap" id="pagePreview"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Sides -->
+          <div class="settings-group">
+            <div class="settings-label">Print sides</div>
+            <div class="toggle-row">
+              <div class="tog-btn sel-lav" id="tb-front" onclick="selectSide('front')">Single side</div>
+              <div class="tog-btn" id="tb-double" onclick="selectSide('double')">Double side</div>
+            </div>
+          </div>
+
+          <!-- Copies -->
+          <div class="settings-group">
+            <div class="settings-label">Copies</div>
+            <div class="counter-wrap">
+              <div class="cnt-btn" onclick="changeCopies(-1)">−</div>
+              <div class="cnt-val" id="copiesVal">1</div>
+              <div class="cnt-btn" onclick="changeCopies(1)">+</div>
+              <span style="font-size:12px;color:var(--ink-muted);margin-left:4px;">copy / copies</span>
+            </div>
+          </div>
+
+          <!-- Page range -->
+          <div class="settings-group" style="margin-bottom:0;">
+            <div class="settings-label">Page range</div>
+            <div class="toggle-row">
+              <div class="tog-btn sel-lav" id="tb-all" onclick="selectRange('all')">All pages</div>
+              <div class="tog-btn" id="tb-custom" onclick="selectRange('custom')">Custom range</div>
+            </div>
+            <div class="range-row hidden" id="rangeInputs">
+              <input class="range-inp" type="number" placeholder="From" min="1" id="rangeFrom">
+              <span class="range-sep">—</span>
+              <input class="range-inp" type="number" placeholder="To" min="1" id="rangeTo">
+            </div>
+          </div>
+        </div>
+        <!-- COST SUMMARY -->
+        <div class="summary-card" style="margin-bottom:16px;">
+          <div class="summary-header">Cost preview</div>
+          <div class="summary-row" id="sr-col" style="display:none;">
+            <span class="sum-lbl"><span style="width:8px;height:8px;border-radius:50%;background:var(--lav-600);display:inline-block;margin-right:6px;vertical-align:2px;"></span>Colour pages</span>
+            <span class="sum-val sum-col" id="sv-col">—</span>
+          </div>
+          <div class="summary-row" id="sr-bw" style="display:none;">
+            <span class="sum-lbl"><span style="width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block;margin-right:6px;vertical-align:2px;"></span>B&amp;W pages</span>
+            <span class="sum-val" id="sv-bw">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="sum-lbl">Copies</span>
+            <span class="sum-val" id="sv-copies">1</span>
+          </div>
+          <div class="sum-total-row">
+            <span style="font-size:14px;font-weight:500;color:var(--ink);">Total amount</span>
+            <span class="sum-total-amt" id="sv-total">₹10</span>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-back" onclick="goStep(1)"><i class="ti ti-arrow-left"></i> Back</button>
+          <button class="btn-next" onclick="goStep(3)">Review &amp; pay <i class="ti ti-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 3 — PAYMENT -->
+      <div id="step3" class="hidden">
+        <div class="pay-grid">
+          <!-- UPI -->
+          <div class="upi-card">
+            <div class="upi-header">Pay via UPI</div>
+            <div class="upi-body">
+              <div class="upi-id-box" onclick="copyUPI()">
+                <i class="ti ti-copy" style="font-size:15px;"></i>
+                nexustransfer@okhdfcbank
+              </div>
+              <div class="qr-box"><i class="ti ti-qrcode"></i></div>
+              <div class="upi-scan-label">Scan QR code to pay instantly</div>
+              <div class="pay-divider">or pay with app</div>
+              <div class="pay-apps">
+                <div class="pay-app-btn" onclick="payNow()">
+                  <i class="ti ti-brand-google-pay"></i>GPay
+                </div>
+                <div class="pay-app-btn" onclick="payNow()">
+                  <i class="ti ti-wallet"></i>Paytm
+                </div>
+                <div class="pay-app-btn" onclick="payNow()">
+                  <i class="ti ti-device-mobile"></i>PhonePe
+                </div>
+              </div>
+              <button class="pay-now-btn" onclick="payNow()">
+                <i class="ti ti-lock"></i> Pay <span id="pay-amount">₹10</span> securely
+              </button>
+            </div>
+          </div>
+          <!-- Order Summary -->
+          <div>
+            <div class="summary-card" style="margin-bottom:14px;">
+              <div class="summary-header">Order summary</div>
+              <div class="summary-row">
+                <span class="sum-lbl">File</span>
+                <span class="sum-val" id="p3-file" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">document.pdf</span>
+              </div>
+              <div class="summary-row">
+                <span class="sum-lbl">Mode</span>
+                <span class="sum-val sum-col" id="p3-mode">Colour X</span>
+              </div>
+              <div class="summary-row">
+                <span class="sum-lbl">Copies</span>
+                <span class="sum-val" id="p3-copies">1</span>
+              </div>
+              <div class="summary-row" id="p3-col-row" style="display:none;">
+                <span class="sum-lbl">Colour pages</span>
+                <span class="sum-val sum-col" id="p3-col">—</span>
+              </div>
+              <div class="summary-row" id="p3-bw-row" style="display:none;">
+                <span class="sum-lbl">B&amp;W pages</span>
+                <span class="sum-val" id="p3-bw">—</span>
+              </div>
+              <div class="sum-total-row">
+                <span style="font-size:14px;font-weight:500;color:var(--ink);">Total</span>
+                <span class="sum-total-amt" id="p3-total">₹10</span>
+              </div>
+            </div>
+
+            <div style="background:var(--blue-50);border:1px solid var(--blue-100);border-radius:var(--r-md);padding:14px 16px;">
+              <div style="display:flex;align-items:flex-start;gap:8px;">
+                <i class="ti ti-shield-check" style="color:var(--blue-500);font-size:18px;flex-shrink:0;margin-top:1px;"></i>
+                <div style="font-size:12px;color:var(--blue-700);line-height:1.6;">
+                  <strong>Secure payment</strong><br>
+                  Your file and payment are encrypted. Files auto-delete after printing.
+                </div>
+              </div>
+            </div>
+
+            <div class="btn-row" style="margin-top:14px;">
+              <button class="btn-back" onclick="goStep(2)"><i class="ti ti-arrow-left"></i> Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /pg-upload -->
+
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE 3 · SUCCESS + STATUS
+════════════════════════════════════════════════════════ -->
+<div class="page" id="pg-success">
+  <nav class="nav success-nav">
+    <div class="nav-logo" onclick="goPage('landing')">
+      <div class="logo-mark">NE<span class="lx">X</span>US</div>
+      <div class="logo-tag">Asynchronous Printer</div>
+    </div>
+    <div class="nav-actions success-nav-actions">
+      <button class="btn-nav-primary btn-nav-back" onclick="goPage('pg-upload')">← Back</button>
+    </div>
+  </nav>
+
+  <div class="success-wrap">
+    <div class="success-card">
+      <div class="success-meta" style="margin-bottom:24px;">
+        <div class="meta-row"><span class="meta-lbl">Order ID</span><span class="meta-val blue" id="s-orderid">NEXUS-0000</span></div>
+        <div class="meta-row"><span class="meta-lbl">File</span><span class="meta-val" id="s-file">document.pdf</span></div>
+        <div class="meta-row"><span class="meta-lbl">Mode</span><span class="meta-val" id="s-mode">Colour X</span></div>
+        <div class="meta-row"><span class="meta-lbl">Copies</span><span class="meta-val" id="s-copies">1</span></div>
+        <div class="meta-row"><span class="meta-lbl">Amount paid</span><span class="meta-val blue" id="s-total">₹10</span></div>
+      </div>
+
+      <!-- QR PRINT TOKEN BOX -->
+      <div style="background:linear-gradient(135deg,var(--lav-50) 0%,var(--blue-50) 100%);border:2px solid var(--lav-200);border-radius:var(--r-xl);padding:28px 24px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:var(--blue-100);opacity:.35;"></div>
+        <div style="position:absolute;bottom:-30px;left:-30px;width:90px;height:90px;border-radius:50%;background:var(--lav-200);opacity:.35;"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-700);background:var(--blue-50);border:1px solid var(--blue-100);padding:4px 14px;border-radius:99px;margin-bottom:14px;">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--blue-400);animation:pulse 1.5s infinite;"></span>
+            Your Print Token
+          </div>
+          <div style="font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin-bottom:4px;">Scan at the Nexus machine to print</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:20px;">Point this QR at the printer's scanner. Your job starts automatically — no buttons needed.</div>
+
+          <!-- TOKEN CARD -->
+          <div id="tokenCard" style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:20px;max-width:270px;margin:0 auto 20px;box-shadow:0 4px 24px rgba(124,92,191,.12);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+              <div>
+                <div style="font-family:var(--serif);font-size:20px;font-weight:600;color:var(--lav-600);">NE<span style="color:var(--blue-400);">X</span>US</div>
+                <div style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-top:1px;">Print Token</div>
+              </div>
+              <div style="font-size:10px;font-weight:500;background:var(--blue-50);color:var(--blue-700);border:1px solid var(--blue-100);padding:3px 10px;border-radius:99px;">Valid · 2 hrs</div>
+            </div>
+
+            <!-- QR CODE CANVAS -->
+            <div id="qrWrap" style="width:156px;height:156px;margin:0 auto 14px;border:1px solid var(--border);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;background:var(--white);padding:8px;overflow:hidden;">
+            </div>
+
+            <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;">Token: <span style="color:var(--lav-600);" id="qtc-id">NEXUS-0000</span></div>
+
+            <div style="font-size:11px;color:var(--ink-soft);background:var(--lav-50);border-radius:var(--r-sm);padding:8px 10px;margin-top:10px;line-height:1.5;text-align:left;">
+              <strong style="color:var(--lav-800);">How to use:</strong> Tap "Scan Token" on the Nexus machine and hold this QR to the reader. Printing starts immediately.
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink-muted);padding-top:10px;border-top:1px solid var(--border);margin-top:10px;">
+              <span id="qtc-file" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:90px;">doc.pdf</span>
+              <span id="qtc-mode">Colour X</span>
+              <span id="qtc-total">₹10</span>
+            </div>
+          </div>
+
+          <!-- ACTION BUTTONS -->
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <button onclick="downloadToken()" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--r-md);background:var(--lav-600);color:var(--white);font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:var(--sans);transition:background .2s;" onmouseover="this.style.background='var(--lav-800)'" onmouseout="this.style.background='var(--lav-600)'">
+              <i class="ti ti-download"></i> Download token
+            </button>
+            <button onclick="shareToken()" style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--r-md);background:var(--blue-500);color:var(--white);font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:var(--sans);transition:background .2s;" onmouseover="this.style.background='var(--blue-700)'" onmouseout="this.style.background='var(--blue-500)'">
+              <i class="ti ti-share"></i> Share
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATUS TRACKER -->
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:500;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Print status</div>
+        <div class="status-list">
+          <div class="status-item">
+            <div class="status-dot done"><i class="ti ti-check" style="font-size:13px;"></i></div>
+            <div class="status-info">
+              <div class="status-name">Order placed &amp; payment confirmed</div>
+              <div class="status-time" id="s-time">Just now</div>
+            </div>
+            <span class="status-badge badge-done">Done</span>
+          </div>
+          <div class="status-item">
+            <div class="status-dot done"><i class="ti ti-check" style="font-size:13px;"></i></div>
+            <div class="status-info">
+              <div class="status-name">Print token generated</div>
+              <div class="status-time">Ready to scan</div>
+            </div>
+            <span class="status-badge badge-done">Done</span>
+          </div>
+          <div class="status-item">
+            <div class="status-dot active"></div>
+            <div class="status-info">
+              <div class="status-name">Waiting for machine scan</div>
+              <div class="status-time">Walk to the Nexus printer &amp; scan your token</div>
+            </div>
+            <span class="status-badge badge-active">Pending scan</span>
+          </div>
+          <div class="status-item">
+            <div class="status-dot pending"></div>
+            <div class="status-info">
+              <div class="status-name">Printing &amp; ready for pickup</div>
+              <div class="status-time">~2 min after scan</div>
+            </div>
+            <span class="status-badge badge-pending">Upcoming</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary btn-full blue" onclick="goPage('pg-upload')">
+        <i class="ti ti-plus"></i> Print another document
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <div class="footer-brand">NEXUS</div>
+      <div class="footer-by">by NK Design House</div>
+    </div>
+    <div class="footer-copy">© 2024 NK Design House</div>
+  </footer>
+</div><!-- /pg-success -->
+
+
+
+
+
+
+
+    
+
+<script>
+  /* ── PAGE ROUTING ────────────────────────────────────── */
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id === 'pg-upload') { resetUpload(); }
+}
+
+/* ── UPLOAD STATE ────────────────────────────────────── */
+let totalPages = 12;
+let colPages = new Set();
+let copies = 1;
+let printMode = 'cx';
+let sideMode = 'front';
+let rangeMode = 'all';
+let selectedFile = null;
+let fileReviewUrl = null;
+let uploadedFileInfo = null;
+let uploadPromise = null;
+
+function resetUpload() {
+  goStep(1);
+  removeFile();
+  colPages = new Set();
+  copies = 1;
+  printMode = 'cx';
+  const copiesEl = document.getElementById('copiesVal') || document.getElementById('copies');
+  if (copiesEl) copiesEl.textContent = 1;
+  const cxChips = document.getElementById('cxChips');
+  if (cxChips) cxChips.innerHTML = '';
+  const cxBwNote = document.getElementById('cxBwNote');
+  if (cxBwNote) cxBwNote.textContent = '';
+  const cxInput = document.getElementById('cxInput');
+  if (cxInput) cxInput.value = '';
+  renderPreview();
+  recalc();
+}
+
+/* ── FILE HANDLING ───────────────────────────────────── */
+function handleFile(input) {
+  if (!input.files || !input.files[0]) return;
+  processFileUpload(input.files[0]);
+}
+function handleDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (!f) return;
+  processFileUpload(f);
+}
+
+function processFileUpload(f) {
+  selectedFile = f;
+  uploadedFileInfo = null;
+  document.getElementById('fileName').textContent = f.name;
+  document.getElementById('filePill').classList.add('show');
+  document.getElementById('pageCount').textContent = 'Counting…';
+  document.getElementById('pageRow').style.display = 'flex';
+  updateFileReview(f);
+  uploadPromise = uploadFile(f);
+
+  const ext = f.name.split('.').pop().toLowerCase();
+
+  if (ext === 'pdf') {
+    countPdfPages(f);
+  } else if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') {
+    setPageCount(1, '');
+  } else if (ext === 'docx' || ext === 'doc') {
+    // Can't count DOCX pages in browser — estimate from file size (~2 KB per page)
+    const est = Math.max(1, Math.round(f.size / 2048));
+    setPageCount(est, ' (estimated)');
+  } else {
+    setPageCount(1, '');
+  }
+}
+
+function updateFileReview(file) {
+  if (fileReviewUrl) URL.revokeObjectURL(fileReviewUrl);
+  fileReviewUrl = URL.createObjectURL(file);
+
+  const panel = document.getElementById('fileReview');
+  const body = document.getElementById('fileReviewBody');
+  const meta = document.getElementById('fileReviewMeta');
+  const open = document.getElementById('fileReviewOpen');
+  const ext = file.name.split('.').pop().toLowerCase();
+  const sizeText = formatFileSize(file.size);
+
+  panel.style.display = 'none';
+  open.href = fileReviewUrl;
+  meta.textContent = file.name + ' · ' + sizeText;
+
+  if (ext === 'pdf') {
+    body.innerHTML = `<iframe class="file-review-frame" src="${fileReviewUrl}#toolbar=0" title="File preview"></iframe>`;
+  } else if (['jpg', 'jpeg', 'png'].includes(ext)) {
+    body.innerHTML = `<img class="file-review-image" src="${fileReviewUrl}" alt="Selected file preview">`;
+  } else {
+    body.innerHTML = `
+      <div class="file-review-empty">
+        <i class="ti ti-file-description"></i>
+        Preview is not available for this file type in the browser.<br>
+        Use the open button to review the selected file.
+      </div>
+    `;
+  }
+}
+
+function toggleFileReview(event) {
+  if (event) event.stopPropagation();
+  if (!selectedFile) return;
+  const panel = document.getElementById('fileReview');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function formatFileSize(bytes) {
+  if (!bytes) return '0 KB';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let size = bytes;
+  let unit = 0;
+  while (size >= 1024 && unit < units.length - 1) {
+    size /= 1024;
+    unit += 1;
+  }
+  return (unit === 0 ? size : size.toFixed(1)) + ' ' + units[unit];
+}
+
+function setPageCount(n, suffix) {
+  totalPages = n;
+  document.getElementById('pageCount').textContent = n + ' page' + (n !== 1 ? 's' : '') + (suffix || '');
+  renderPreview();
+  recalc();
+}
+
+function countPdfPages(file) {
+  const url = URL.createObjectURL(file);
+  // Dynamically load PDF.js from cdnjs
+  if (window.pdfjsLib) {
+    _doPdfCount(url);
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  script.onload = () => {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    _doPdfCount(url);
+  };
+  script.onerror = () => {
+    URL.revokeObjectURL(url);
+    setPageCount(1, ' (could not read)');
+  };
+  document.head.appendChild(script);
+}
+
+function _doPdfCount(url) {
+  pdfjsLib.getDocument(url).promise
+    .then(pdf => {
+      URL.revokeObjectURL(url);
+      setPageCount(pdf.numPages, '');
+    })
+    .catch(() => {
+      URL.revokeObjectURL(url);
+      setPageCount(1, ' (could not read)');
+    });
+}
+function removeFile() {
+  selectedFile = null;
+  if (fileReviewUrl) {
+    URL.revokeObjectURL(fileReviewUrl);
+    fileReviewUrl = null;
+  }
+  document.getElementById('filePill').classList.remove('show');
+  document.getElementById('pageRow').style.display = 'none';
+  document.getElementById('fileReview').style.display = 'none';
+  document.getElementById('fileReviewBody').innerHTML = '';
+  document.getElementById('fileName').textContent = '';
+  const input = document.getElementById('fileInput');
+  if (input) input.value = '';
+}
+
+/* ── STEP NAVIGATION ─────────────────────────────────── */
+function goStep(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('step'+i);
+    if (el) el.classList.toggle('hidden', i !== n);
+    const dot = document.getElementById('sp'+i);
+    const lbl = document.getElementById('sl'+i);
+    if (dot) dot.className = 'sp-dot' + (i < n ? ' done' : i === n ? ' active' : '');
+    if (lbl) lbl.className = 'sp-label' + (i === n ? ' active' : '');
+    if (i < 3) {
+      const ln = document.getElementById('ln'+i);
+      if (ln) ln.className = 'sp-line' + (i < n ? ' done' : '');
+    }
+  });
+  if (n === 3) populatePayPage();
+  window.scrollTo(0,0);
+}
+
+/* ── MODE SELECTION ──────────────────────────────────── */
+function selectMode(m) {
+  printMode = m;
+  ['bw','col','cx'].forEach(k => {
+    const b = document.getElementById('tb-'+k);
+    b.className = 'tog-btn';
+  });
+  document.getElementById('tb-'+m).classList.add('sel-lav');
+  document.getElementById('cxPanel').style.display = m === 'cx' ? 'block' : 'none';
+  recalc();
+}
+function selectSide(s) {
+  sideMode = s;
+  document.getElementById('tb-front').className = 'tog-btn' + (s==='front'?' sel-lav':'');
+  document.getElementById('tb-double').className = 'tog-btn' + (s==='double'?' sel-lav':'');
+}
+function selectRange(r) {
+  rangeMode = r;
+  document.getElementById('tb-all').className = 'tog-btn' + (r==='all'?' sel-lav':'');
+  document.getElementById('tb-custom').className = 'tog-btn' + (r==='custom'?' sel-lav':'');
+  document.getElementById('rangeInputs').classList.toggle('hidden', r !== 'custom');
+}
+function changeCopies(d) {
+  copies = Math.max(1, copies + d);
+  document.getElementById('copiesVal').textContent = copies;
+  recalc();
+}
+
+/* ── COLOUR X LOGIC ──────────────────────────────────── */
+function parsePagesStr(str) {
+  const pages = new Set();
+  str.split(',').forEach(part => {
+    part = part.trim();
+    if (part.includes('-')) {
+      const [a,b] = part.split('-').map(Number);
+      for (let i = a; i <= b && i <= totalPages; i++) if (i >= 1) pages.add(i);
+    } else {
+      const n = parseInt(part);
+      if (n >= 1 && n <= totalPages) pages.add(n);
+    }
+  });
+  return pages;
+}
+function addColPages() {
+  const val = document.getElementById('cxInput').value.trim();
+  if (!val) return;
+  parsePagesStr(val).forEach(p => colPages.add(p));
+  document.getElementById('cxInput').value = '';
+  renderChips(); renderPreview(); recalc();
+}
+function removeColPage(p) {
+  colPages.delete(p);
+  renderChips(); renderPreview(); recalc();
+}
+function togglePreviewPage(p) {
+  if (printMode !== 'cx') return;
+  if (colPages.has(p)) {
+    colPages.delete(p);
+  } else {
+    colPages.add(p);
+  }
+  renderChips();
+  recalc();
+}
+function renderChips() {
+
+  const wrap = document.getElementById('cxChips');
+  wrap.innerHTML = '';
+
+  Array.from(colPages)
+    .sort(function(a, b) {
+      return a - b;
+    })
+    .forEach(function(p) {
+
+      const chip = document.createElement('div');
+
+      chip.className = 'cx-chip-item';
+
+      chip.innerHTML =
+        '<i class="ti ti-palette" style="font-size:12px;color:var(--lav-600);"></i> Page ' +
+        p +
+        ' <span class="cx-chip-x" onclick="removeColPage(' +
+        p +
+        ')">✕</span>';
+
+      wrap.appendChild(chip);
+
+    });
+
+  const bwCount = totalPages - colPages.size;
+
+  const note = document.getElementById('cxBwNote');
+
+  note.textContent =
+    colPages.size > 0 && bwCount > 0
+      ? `Remaining ${bwCount} page${bwCount > 1 ? 's' : ''} will print in B&W automatically.`
+      : '';
+
+}
+function renderPreview() {
+  const wrap = document.getElementById('pagePreview');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const t = document.createElement('div');
+    const isCol = printMode === 'col' || (printMode === 'cx' && colPages.has(i));
+    const isBW = printMode === 'bw' || (printMode === 'cx' && !colPages.has(i));
+    t.className = 'pg-tile ' + (isCol ? 'col' : 'bw') + (printMode === 'cx' ? ' selectable' : '');
+    t.innerHTML = `${i}<div class="${isCol ? 'pg-dot-col' : 'pg-dot-bw'}"></div>`;
+    t.title = printMode === 'cx'
+      ? `Click to mark page ${i} as ${isCol ? 'B&W' : 'Colour'}`
+      : `Page ${i}: ${isCol ? 'Colour' : 'B&W'}`;
+    if (printMode === 'cx') {
+      t.setAttribute('role', 'button');
+      t.setAttribute('tabindex', '0');
+      t.setAttribute('aria-pressed', isCol ? 'true' : 'false');
+      t.onclick = () => togglePreviewPage(i);
+      t.onkeydown = event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          togglePreviewPage(i);
+        }
+      };
+    }
+    wrap.appendChild(t);
+  }
+}
+
+/* ── COST CALCULATION ────────────────────────────────── */
+function recalc() {
+  let colCount = 0, bwCount = 0, total = 0;
+  if (printMode === 'bw')  { bwCount = totalPages; total = totalPages * 1 * copies; }
+  if (printMode === 'col') { colCount = totalPages; total = totalPages * 2 * copies; }
+  if (printMode === 'cx')  { colCount = colPages.size; bwCount = totalPages - colCount; total = (colCount*2 + bwCount*1) * copies; }
+
+  const srCol = document.getElementById('sr-col');
+  const srBw  = document.getElementById('sr-bw');
+  if (printMode !== 'bw') { srCol.style.display = 'flex'; document.getElementById('sv-col').textContent = `${colCount} × ₹2 = ₹${colCount*2}`; } else srCol.style.display = 'none';
+  if (printMode !== 'col') { srBw.style.display = 'flex'; document.getElementById('sv-bw').textContent = `${bwCount} × ₹1 = ₹${bwCount}`; } else srBw.style.display = 'none';
+  document.getElementById('sv-copies').textContent = copies;
+  document.getElementById('sv-total').textContent = '₹' + total;
+
+  renderPreview();
+}
+
+/* ── PAYMENT PAGE ────────────────────────────────────── */
+function populatePayPage() {
+  const fname = document.getElementById('fileName').textContent || 'document.pdf';
+  const modeMap = { bw: 'B&W only', col: 'Full colour', cx: 'Colour X (mixed)' };
+  const total = document.getElementById('sv-total').textContent;
+  document.getElementById('p3-file').textContent = fname;
+  document.getElementById('p3-mode').textContent = modeMap[printMode];
+  document.getElementById('p3-copies').textContent = copies;
+  document.getElementById('pay-amount').textContent = total;
+  document.getElementById('p3-total').textContent = total;
+
+  let colCount = printMode==='bw' ? 0 : printMode==='col' ? totalPages : colPages.size;
+  let bwCount  = printMode==='col' ? 0 : printMode==='bw' ? totalPages : totalPages-colPages.size;
+  if (printMode !== 'bw') { document.getElementById('p3-col-row').style.display='flex'; document.getElementById('p3-col').textContent=colCount+' pages × ₹2 = ₹'+(colCount*2); } else document.getElementById('p3-col-row').style.display='none';
+  if (printMode !== 'col') { document.getElementById('p3-bw-row').style.display='flex'; document.getElementById('p3-bw').textContent=bwCount+' pages × ₹1 = ₹'+bwCount; } else document.getElementById('p3-bw-row').style.display='none';
+}
+
+function copyUPI() {
+  navigator.clipboard && navigator.clipboard.writeText('nexustransfer@okhdfcbank');
+  const box = document.querySelector('.upi-id-box');
+  const orig = box.innerHTML;
+  box.innerHTML = '<i class="ti ti-check" style="font-size:15px;color:var(--blue-500);"></i> Copied!';
+  setTimeout(() => { box.innerHTML = orig; }, 1500);
+}
+
+async function payNow() {
+
+  const total = document.getElementById('sv-total').textContent;
+  const fname = document.getElementById('fileName').textContent || 'document.pdf';
+
+  const modeMap = {
+    bw: 'B&W only',
+    col: 'Full colour',
+    cx: 'Colour X'
+  };
+
+  try {
+    if (uploadPromise) await uploadPromise;
+
+    const response = await fetch('/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        filename: fname,
+        original_filename: uploadedFileInfo?.original_filename || fname,
+        stored_filename: uploadedFileInfo?.stored_filename || '',
+        mode: modeMap[printMode],
+        copies: copies,
+        total_pages: totalPages,
+        total: parseInt(total.replace('₹', ''))
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok || !data.success || !data.order_id) {
+      throw new Error(data.error || 'Could not create order');
+    }
+
+    const orderId = data.order_id;
+
+    const now = new Date();
+    const timestamp = data.uploaded_at || now.toISOString();
+    const timeStr = now.toLocaleTimeString('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
+    document.getElementById('s-orderid').textContent = orderId;
+    document.getElementById('s-file').textContent = fname;
+    document.getElementById('s-mode').textContent = modeMap[printMode];
+    document.getElementById('s-copies').textContent = copies;
+    document.getElementById('s-total').textContent = total;
+    document.getElementById('s-time').textContent = 'Today, ' + timeStr;
+
+    document.getElementById('qtc-id').textContent = orderId;
+    document.getElementById('qtc-file').textContent =
+      fname.length > 14 ? fname.substring(0, 12) + '…' : fname;
+
+    document.getElementById('qtc-mode').textContent = modeMap[printMode];
+    document.getElementById('qtc-total').textContent = total;
+
+    goPage('pg-success');
+    generateQR({
+      orderId,
+      fileName: fname,
+      printModeLabel: modeMap[printMode],
+      copies,
+      totalPages,
+      totalAmount: total,
+      timestamp
+    });
+
+  } catch (error) {
+
+    console.error(error);
+    alert('Failed to create order');
+
+  }
+}
+
+
+let qrInstance = null;
+function generateQR(order) {
+  const wrap = document.getElementById('qrWrap');
+  const orderId = String(order.orderId || '').trim().toUpperCase();
+  const tokenPattern = /^NEXUS-[A-Z0-9]{8}$/;
+
+  if (!wrap) return;
+  if (qrInstance) { try { qrInstance.clear(); } catch(e){} qrInstance = null; }
+  wrap.innerHTML = '';
+
+  if (!tokenPattern.test(orderId)) {
+    console.error('Invalid token for QR:', orderId);
+    wrap.innerHTML = '<div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-muted);text-align:center;line-height:1.4;">QR generation failed</div>';
+    return;
+  }
+
+  // The QR must contain only the plain token. Admin also supports {"token":"NEXUS-ABC12345"}.
+  const qrText = orderId;
+
+  function forceQrSize(root) {
+    root.querySelectorAll('img, canvas').forEach(el => {
+      el.style.width = '140px';
+      el.style.height = '140px';
+      el.style.maxWidth = '140px';
+      el.style.maxHeight = '140px';
+      el.style.display = 'block';
+    });
+  }
+
+  function renderBrowserQR() {
+    return new Promise((resolve, reject) => {
+      const inner = document.createElement('div');
+      inner.style.cssText = 'width:140px;height:140px;';
+      wrap.innerHTML = '';
+      wrap.appendChild(inner);
+
+      try {
+        qrInstance = new QRCode(inner, {
+          text: qrText,
+          width: 140,
+          height: 140,
+          colorDark: '#2e1a6b',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        setTimeout(() => {
+          forceQrSize(inner);
+          resolve();
+        }, 80);
+      } catch(e) {
+        reject(e);
+      }
+    });
+  }
+
+  async function renderLocalQR() {
+    const response = await fetch('/qr-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: qrText })
+    });
+
+    if (!response.ok) throw new Error('Local QR generator failed');
+
+    const blob = await response.blob();
+    const img = document.createElement('img');
+    img.alt = 'QR code for token ' + qrText;
+    img.width = 140;
+    img.height = 140;
+    img.style.cssText = 'width:140px;height:140px;max-width:140px;max-height:140px;display:block;';
+    img.src = URL.createObjectURL(blob);
+    wrap.innerHTML = '';
+    wrap.appendChild(img);
+  }
+
+  function waitForQRCodeLibrary() {
+    if (typeof QRCode !== 'undefined') return Promise.resolve(true);
+    if (window.NEXUS_QR_CDN_FAILED) return Promise.resolve(false);
+
+    let attempts = 0;
+    return new Promise(resolve => {
+      const poll = setInterval(() => {
+        attempts++;
+        if (typeof QRCode !== 'undefined') {
+          clearInterval(poll);
+          resolve(true);
+        } else if (attempts >= 20) {
+          clearInterval(poll);
+          resolve(false);
+        }
+      }, 100);
+    });
+  }
+
+  waitForQRCodeLibrary()
+    .then(hasLibrary => hasLibrary ? renderBrowserQR() : renderLocalQR())
+    .catch(renderLocalQR)
+    .catch(error => {
+      console.error('QR generation failed:', error);
+      wrap.innerHTML = '<div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-muted);text-align:center;line-height:1.4;">QR generation failed<br>' + qrText + '</div>';
+    });
+}
+
+function downloadToken() {
+  const card = document.getElementById('tokenCard');
+  html2canvas(card, {
+    scale: 3,
+    backgroundColor: '#ffffff',
+    useCORS: true,
+    logging: false
+  }).then(canvas => {
+    const orderId = document.getElementById('qtc-id').textContent;
+    const link = document.createElement('a');
+    link.download = 'Nexus-PrintToken-' + orderId + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+function shareToken() {
+  const orderId = document.getElementById('s-orderid').textContent;
+  const total   = document.getElementById('s-total').textContent;
+  const mode    = document.getElementById('s-mode').textContent;
+  if (navigator.share) {
+    navigator.share({
+      title: 'Nexus Print Token ' + orderId,
+      text: 'Print token for Nexus Asynchronous Printer\nOrder: ' + orderId + '\nMode: ' + mode + '\nAmount: ' + total + '\n\nScan at the Nexus machine to print.'
+    }).catch(()=>{});
+  } else {
+    navigator.clipboard && navigator.clipboard.writeText(
+      'Nexus Print Token\nOrder: ' + orderId + ' | Mode: ' + mode + ' | Total: ' + total
+    );
+    alert('Token details copied to clipboard!');
+  }
+}
+
+function openMobileDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  if (!drawer) return;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false');
+}
+
+function closeMobileDrawer() {
+  const drawer = document.getElementById('mobileDrawer');
+  if (!drawer) return;
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.querySelector('.nav-toggle');
+  const drawerClose = document.getElementById('drawerClose');
+  const drawerBackdrop = document.getElementById('drawerBackdrop');
+  if (navToggle) navToggle.addEventListener('click', openMobileDrawer);
+  if (drawerClose) drawerClose.addEventListener('click', closeMobileDrawer);
+  if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeMobileDrawer);
+  document.querySelectorAll('.drawer-links a, .drawer-actions button').forEach(el => {
+    el.addEventListener('click', closeMobileDrawer);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMobileDrawer();
+  });
+});
+/* ── INIT ────────────────────────────────────────────── */
+renderPreview();
+recalc();
+selectMode('cx');
+
+async function uploadFile(file) {
+
+    if (!file) return;
+
+    const formData = new FormData();
+
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || 'Upload failed');
+        }
+        uploadedFileInfo = result;
+        return result;
+    } catch (error) {
+        console.error('Upload failed', error);
+        uploadedFileInfo = null;
+        throw error;
+    }
+    
+}
+
+
+
+</script>
+
+</body>
+</html>

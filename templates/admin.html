@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus — Admin Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<style>
+  :root {
+  --ink:       #0f0a1e;
+  --ink-mid:   #3d3256;
+  --ink-soft:  #6b5f85;
+  --ink-muted: #9b94b0;
+  --lav-50:    #f4f0ff;
+  --lav-100:   #ebe4ff;
+  --lav-400:   #9b7fdc;
+  --lav-600:   #7c5cbf;
+  --lav-800:   #4a2d9e;
+  --blue-400:  #38b6ff;
+  --blue-500:  #0ea5e9;
+  --green:     #10b981;
+  --green-bg:  #ecfdf5;
+  --red:       #ef4444;
+  --red-bg:    #fef2f2;
+  --border:    #e8e2f5;
+  --white:     #ffffff;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: #f8f7fc; color: var(--ink); min-height: 100vh; }
+/* NAV */
+.nav {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 32px;
+    height:60px;
+    background:var(--white);
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0; z-index:100;
+}
+.logo{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:600;
+    color:var(--lav-600);
+}
+.logo span{
+    color:var(--lav-400);
+}
+.badge-admin{
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    background:var(--lav-100);
+    color:var(--lav-800);
+    padding:4px 10px;
+    border-radius:20px;
+}
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color .2s, color .2s, background .2s;
+}
+.btn-logout:hover {
+    border-color: #fecaca;
+    background: var(--red-bg);
+    color: var(--red);
+}
+/* MAIN */
+.main{
+    max-width:560px;
+    margin:0 auto;
+    padding:32px 16px 80px;
+}
+.page-title{
+    font-family:var(--serif);
+    font-size:28px;
+    font-weight:600;
+    color:var(--ink-muted);
+    margin-bottom:4px;
+}
+.page-sub{
+    font-size:13px;
+    color:var(--ink-muted);
+    margin-bottom:28px;
+}
+.tabs{
+    display:flex;
+    gap:4px;
+    background:var(--lav-50);
+    border-radius:12px;
+    padding:4px;
+    margin-bottom:24px;
+}
+.tab{
+    flex:1;
+    padding: 9px;
+    border-radius:9px;
+    border: none;
+    font-family:var(--sans);
+    font-size:13px;
+    font-weight:500;
+    color:var(--ink-soft);
+    background:transparent;
+    cursor: pointer;
+    transition:all .2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+}
+.tab.active{
+    background:var(--white);
+    color:var(--lav-800);
+    box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+/* CARD */
+.card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    margin-bottom:16px;
+}
+.card-head{
+    padding:16px 20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.card-head-icon{
+    width:32px;
+    height: 32px;
+    border-radius: 8px;
+    background:var(--lav-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:var(--lav-600);
+    font-size:16px;
+    flex-shrink:0;
+}
+.card-head-title{
+    font-size:14px;
+    font-weight:500;
+    color:var(--ink);
+}
+.card-head-sub{
+    font-size:12px;
+    font-weight:500;
+    color:var(--ink-muted);
+}
+.card-body{
+    padding:20px;
+}
+/* SCANNER */
+.scanner-wrap{
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--ink);
+  aspect-ratio:1;
+  max-width: 320px;
+  margin:0 auto;
+
+}
+#cameraFeed {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.scanner-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+.scan-frame{
+  width:60%;
+  height:60%;
+  position:relative;
+}
+.scan-frame::before, .scan-frame::after{
+  content:'';
+  position:absolute;
+  width:24px;
+  height:24px;
+  border-color: var(--blue-400);
+
+}
+.scan-frame-b::before, .scan-frame-b::after {
+  content: ''; position: absolute; width: 24px; height: 24px; border-color: var(--blue-400); border-style: solid;
+}
+.scan-frame::before { top: 0; left: 0; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+.scan-frame::after  { top: 0; right: 0; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
+.scan-frame-b::before { bottom: 0; left: 0; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
+.scan-frame-b::after  { bottom: 0; right: 0; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+.scan-line {
+  position: absolute; left: 5%; right: 5%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-400), transparent);
+  animation: scanMove 2s linear infinite;
+  top: 20%;
+}
+@keyframes scanMove { 0%{top:10%} 100%{top:85%} }
+.scanner-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 40px 20px; text-align: center; aspect-ratio: 1; max-width: 320px; margin: 0 auto;
+  background: var(--lav-50); border-radius: 12px; border: 2px dashed var(--border);
+}
+.scanner-placeholder i { font-size: 48px; color: var(--lav-400); }
+.scanner-placeholder p { font-size: 13px; color: var(--ink-muted); }
+.btn-scan {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 12px; margin-top: 14px; border-radius: 10px; border: none;
+  background: var(--lav-600); color: var(--white); font-family: var(--sans);
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s;
+}
+.btn-scan:hover { background: var(--lav-800); }
+.btn-scan-stop {
+  background: var(--red-bg); color: var(--red); border: 1px solid #fecaca;
+}
+.btn-scan-stop:hover { background: #fee2e2; }
+/* STATUS */
+.status-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  border-radius: 8px; font-size: 13px; margin-top: 12px;
+}
+.status-bar.scanning { background: #eff6ff; color: #1d4ed8; }
+.status-bar.success  { background: var(--green-bg); color: #065f46; }
+.status-bar.error    { background: var(--red-bg); color: #991b1b; }
+.status-bar.idle     { background: var(--lav-50); color: var(--ink-soft); }
+/* ORDER CARD */
+.order-card {
+  background: var(--white); border: 1.5px solid var(--lav-200);
+  border-radius: 14px; overflow: hidden; margin-top: 16px;
+}
+.order-card-header {
+  background: linear-gradient(135deg, var(--lav-800), var(--lav-600));
+  padding: 16px 20px; color: var(--white);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.order-token { font-family: var(--mono); font-size: 18px; font-weight: 500; letter-spacing: .05em; }
+.order-badge {
+  font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px;
+  background: rgba(255,255,255,.2); letter-spacing: .05em;
+}  
+.order-badge.printed { background: var(--green); }
+.order-details { padding: 16px 20px; }
+.detail-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-lbl { color: var(--ink-muted); }
+.detail-val { color: var(--ink); font-weight: 500; }
+.detail-val.mono { font-family: var(--mono); font-size: 12px; }
+
+.btn-print {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px; border-radius: 10px; border: none;
+  background: var(--green); color: var(--white); font-family: var(--sans);
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all .2s;
+  margin-top: 14px;
+}
+.btn-print:hover { background: #059669; }
+.btn-print:disabled { background: #d1d5db; cursor: not-allowed; }
+ /* MANUAL INPUT */
+.token-input-wrap { display: flex; gap: 8px; margin-top: 4px; align-items: center; }
+.token-prefix-box {
+  display: flex; align-items: center;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  overflow: hidden; flex: 1; background: var(--white);
+  transition: border-color .2s;
+}
+.token-prefix-box:focus-within { border-color: var(--lav-400); }
+.token-prefix {
+  padding: 11px 10px 11px 14px;
+  font-family: var(--mono); font-size: 14px; font-weight: 500;
+  color: var(--lav-600); background: var(--lav-50);
+  border-right: 1.5px solid var(--border);
+  user-select: none; white-space: nowrap; line-height: 1;
+}
+.token-input {
+  flex: 1; padding: 11px 14px; border: none; outline: none;
+  font-family: var(--mono); font-size: 14px; color: var(--ink);
+  background: transparent; min-width: 0;
+}
+.token-input:focus { outline: none; }
+.btn-lookup {
+  padding: 11px 18px; border-radius: 10px; border: none;
+  background: var(--lav-600); color: var(--white); font-family: var(--sans);
+  font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+ /* ORDERS LIST */
+.order-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.order-row:last-child { border-bottom: none; }
+.order-row-token { font-family: var(--mono); color: var(--lav-800); font-weight: 500; }
+.order-row-file { color: var(--ink-soft); font-size: 12px; margin-top: 2px; }
+.pill {
+  font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 500;
+}
+.pill.pending  { background: #fef9c3; color: #854d0e; }
+.pill.printed  { background: var(--green-bg); color: #065f46; }
+.empty-state {
+  padding: 40px 20px; text-align: center; color: var(--ink-muted); font-size: 13px;
+}
+.empty-state i { font-size: 32px; display: block; margin-bottom: 8px; color: var(--lav-200); }
+/* HIDDEN */
+.hidden { display: none !important; }
+canvas#qrCanvas { display: none; }
+@media (max-width: 520px) {
+  .nav { padding: 0 16px; }
+  .badge-admin span,
+  .btn-logout span { display: none; }
+  .btn-logout { width: 36px; padding: 8px; }
+}
+</style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">Ne<span>x</span>us</div>
+        <div class="nav-actions">
+             <inputid="searchBox"type="text"placeholder="Search Order ID..."onkeyup="searchOrders()">
+            <div class="badge-admin"><i class="ti ti-shield-check" style="font-size:12px"></i> <span>Admin Panel</span></div>
+            <a class="btn-logout" href="/logout" aria-label="Log out">
+                <i class="ti ti-logout-2" aria-hidden="true"></i>
+
+                <span>Logout</span>
+            </a>
+        </div>
+
+    </nav>
+    <main class="main">
+        <h1 class="page-title">Print Station</h1>
+        <p class="page-sub">Scan customer QR code or enter token manually to process print jobs</p>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('scan')" id="tab-scan">
+              <i class="ti ti-qrcode"></i> Scan QR  
+            </button>
+            <button class="tab" onclick="switchTab('manual')" id="tab-manual">
+               <i class="ti ti-keyboard"></i> Manual Token 
+            </button>
+            <button class="tab" onclick="switchTab('orders')" id="tab-orders">
+                <i class="ti ti-list"></i> All Orders
+            </button>
+        </div>
+         <!-- SCAN TAB -->
+         <div id="pane-scan">
+            <div class="card-head">
+                <div class="card-head-icon"><i class="ti ti-camera"></i></div>
+                <div>
+                    <div class="card-head-title">QR Code Scanner</div>
+                    <div class="card-head-sub">Point camera at customer's print token</div>
+                </div>
+                <div class="card-body">
+                    <div id="scannerPlaceholder" class="scanner-placeholder">
+                        <i class="ti ti-qrcode"></i>
+                        <p>Camera preview will appear here</p>
+                    </div>
+                    <div id="scannerWrap" class="scanner-wrap hidden">
+                        <video id="cameraFeed" autoplay playsinline muted></video>
+                        <canvas id="qrCanvas"></canvas>
+                        <div class="scanner-overlay">
+                            <div class="scan-frame">
+                            <div class="scan-frame-b"></div>
+                            <div class="scan-line"></div> 
+                        </div>
+                    </div>
+                </div>
+                 <div class="status-bar idle" id="scanStatus">
+                    <i class="ti ti-info-circle"></i> Press Start to activate camera
+                </div>
+                <button class="btn-scan" id="btnStartScan" onclick="startScanner()">
+                    <i class="ti ti-camera"></i> Start Camera Scanner
+                </button>
+                <button class="btn-scan btn-scan-stop hidden" id="btnStopScan" onclick="stopScanner()">
+                    <i class="ti ti-x"></i> Stop Scanner
+                 </button>
+            </div>
+         
+        </div>
+    <div id="orderResult" class="hidden"></div>
+</div> 
+ <!-- MANUAL TAB -->
+ <div id="pane-manual" class="hidden">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon"><i class="ti ti-search"></i></div>
+        <div class="card-head-title">Manual Token Entry</div>
+        <div class="card-head-sub">Enter customer's print token manually</div>
+      </div>
+    </div> 
+    <div class="card-body">
+        <label style="font-size:13px;color:var(--ink-soft);display:block;margin-bottom:8px">Print Token</label>
+        <div class="token-input-wrap">
+         <div class="token-prefix-box">
+            <span class="token-prefix">NEXUS-</span>
+            <input class="token-input" id="manualToken" placeholder="XXXX" maxlength="8"
+              oninput="this.value=this.valuethis.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"
+              onkeydown="if (!/^[A-Z0-9]{8}$/.test(digits))">
+         </div>  
+          <button class="btn-lookup" onclick="lookupToken()">Look up</button>
+        </div>
+        <div id="manualStatus" class="status-bar idle" style="margin-top:12px">
+            <i class="ti ti-info-circle"></i> Enter token and click Look up
+        </div>
+    </div>
+  </div> 
+  <div id="manualResult" class="hidden"></div>
+</div>
+ <!-- ORDERS TAB -->
+  <div id="pane-orders" class="hidden">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon"><i class="ti ti-list-check"></i></div>
+        <div>
+          <div class="card-head-title">All Print Orders</div>
+          <div class="card-head-sub">Live from database</div>
+        </div>
+      </div>
+      <div id="ordersList">
+        <div class="empty-state"><i class="ti ti-inbox"></i> Loading orders...</div>
+      </div>  
+    </div>
+    <button class="btn-scan" onclick="loadOrders()" style="margin-top:0">
+      <i class="ti ti-refresh"></i> Refresh Orders
+    </button>
+  </div>
+</div>
+  
+</main>
+<script>
+const TOKEN_PATTERN = /^NEXUS-[A-Z0-9]{8}$/;let stream = null;
+let scanFrameId = null;
+let scannerActive = false;
+let scanLocked = false;
+
+function switchTab(tab) {
+  ['scan', 'manual', 'orders'].forEach(name => {
+    const pane = document.getElementById('pane-' + name);
+    const button = document.getElementById('tab-' + name);
+    if (pane) pane.classList.toggle('hidden', name !== tab);
+    if (button) button.classList.toggle('active', name === tab);
+  });
+  if (tab === 'orders') loadOrders();
+}
+
+async function loadStats() {
+  try {
+    const response = await fetch('/stats');
+    if (!response.ok) throw new Error('Stats request failed');
+    const data = await response.json();
+    setText('totalOrders', data.total ?? 0);
+    setText('pendingOrders', data.pending ?? 0);
+    setText('completedOrders', data.completed ?? 0);
+    setText('totalRevenue', '₹' + (data.revenue ?? 0));
+  } catch (error) {
+    console.error('Could not load stats:', error);
+  }
+}
+
+async function startScanner() {
+  if (scannerActive) return;
+
+  if (typeof jsQR !== 'function') {
+    setStatus('scanStatus', 'error', 'QR scanner library failed to load. Refresh and try again.');
+    return;
+  }
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    setStatus('scanStatus', 'error', 'Camera is not available in this browser. Use Manual Token instead.');
+    return;
+  }
+
+  try {
+    scanLocked = false;
+    scannerActive = true;
+    setStatus('scanStatus', 'scanning', 'Requesting camera access...');
+
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    });
+
+    const video = document.getElementById('cameraFeed');
+    if (!video) throw new Error('Camera video element missing');
+
+    video.srcObject = stream;
+    await video.play();
+
+    toggleScannerUi(true);
+    setStatus('scanStatus', 'scanning', 'Scanning - point camera at the QR code');
+    scanFrameId = requestAnimationFrame(scanFrame);
+  } catch (error) {
+    console.error('Camera start failed:', error);
+    scannerActive = false;
+    stopCameraTracks();
+    toggleScannerUi(false);
+    setStatus('scanStatus', 'error', 'Camera access failed. Use Manual Token instead.');
+  }
+}
+
+function stopScanner(message = 'Scanner stopped.') {
+  scannerActive = false;
+  scanLocked = false;
+  if (scanFrameId) cancelAnimationFrame(scanFrameId);
+  scanFrameId = null;
+  stopCameraTracks();
+  toggleScannerUi(false);
+  setStatus('scanStatus', 'idle', message);
+}
+
+function stopCameraTracks() {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+  }
+
+  const video = document.getElementById('cameraFeed');
+  if (video) video.srcObject = null;
+}
+
+function toggleScannerUi(isScanning) {
+  const placeholder = document.getElementById('scannerPlaceholder');
+  const scannerWrap = document.getElementById('scannerWrap');
+  const startButton = document.getElementById('btnStartScan');
+  const stopButton = document.getElementById('btnStopScan');
+
+  if (placeholder) placeholder.classList.toggle('hidden', isScanning);
+  if (scannerWrap) scannerWrap.classList.toggle('hidden', !isScanning);
+  if (startButton) startButton.classList.toggle('hidden', isScanning);
+  if (stopButton) stopButton.classList.toggle('hidden', !isScanning);
+}
+
+function scanFrame() {
+  if (!scannerActive || scanLocked) return;
+
+  const video = document.getElementById('cameraFeed');
+  const canvas = document.getElementById('qrCanvas');
+
+  if (!video || !canvas || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA || !video.videoWidth || !video.videoHeight) {
+    scanFrameId = requestAnimationFrame(scanFrame);
+    return;
+  }
+
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const code = jsQR(imageData.data, imageData.width, imageData.height, {
+    inversionAttempts: 'attemptBoth'
+  });
+
+  if (code && code.data) {
+    const token = extractTokenFromQr(code.data);
+    if (token) {
+      scanLocked = true;
+      scannerActive = false;
+      if (scanFrameId) cancelAnimationFrame(scanFrameId);
+      scanFrameId = null;
+      stopCameraTracks();
+      toggleScannerUi(false);
+      handleScannedToken(token);
+      return;
+    }
+
+    setStatus('scanStatus', 'scanning', 'QR found, waiting for a Nexus token...');
+  }
+
+  scanFrameId = requestAnimationFrame(scanFrame);
+}
+
+function extractTokenFromQr(rawValue) {
+  if (rawValue === null || rawValue === undefined) return null;
+
+  const raw = String(rawValue).trim();
+  if (!raw) return null;
+
+  const plainToken = normalizeToken(raw);
+  if (plainToken) return plainToken;
+
+  if (raw[0] === '{') {
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        return normalizeToken(parsed.token);
+      }
+    } catch (error) {
+      return null;
+    }
+  }
+
+  return null;
+}
+
+function normalizeToken(value) {
+  if (value === null || value === undefined) return null;
+  const token = String(value).trim().toUpperCase();
+  return TOKEN_PATTERN.test(token) ? token : null;
+}
+
+function handleScannedToken(token) {
+  const manualInput = document.getElementById('manualToken');
+  if (manualInput) manualInput.value = token.replace('NEXUS-', '');
+
+  setStatus('scanStatus', 'success', 'Token scanned: ' + token);
+  lookupTokenById(token, 'orderResult');
+}
+
+function lookupToken() {
+  const input = document.getElementById('manualToken');
+  const digits = input ? input.value.trim() : '';
+
+  if (!/^[A-Z0-9]{8}$/.test(digits)) {
+    setStatus('manualStatus', 'error', 'Token must be exactly 4 digits');
+    return;
+  }
+
+  const token = 'NEXUS-' + digits;
+  setStatus('manualStatus', 'scanning', 'Looking up ' + token + '...');
+  lookupTokenById(token, 'manualResult');
+}
+
+async function lookupTokenById(token, resultEl = 'orderResult') {
+  const cleanToken = normalizeToken(token);
+  if (!cleanToken) {
+    setStatus(resultEl === 'manualResult' ? 'manualStatus' : 'scanStatus', 'error', 'Invalid token format');
+    return;
+  }
+
+  try {
+    const response = await fetch('/order/' + encodeURIComponent(cleanToken));
+    const data = await response.json();
+
+    if (!response.ok || data.error) {
+      throw new Error(data.error || 'Token not found');
+    }
+
+    const statusId = resultEl === 'manualResult' ? 'manualStatus' : 'scanStatus';
+    setStatus(statusId, 'success', 'Order found: ' + cleanToken);
+    showOrderCard(cleanToken, data, resultEl);
+  } catch (error) {
+    console.error('Order lookup failed:', error);
+    const statusId = resultEl === 'manualResult' ? 'manualStatus' : 'scanStatus';
+    setStatus(statusId, 'error', 'Token not found: ' + cleanToken);
+  }
+}
+
+function showOrderCard(token, data, resultElId) {
+  const el = document.getElementById(resultElId);
+  if (!el) return;
+
+  const modeMap = {
+    bw: 'B&W',
+    col: 'Full Colour',
+    cx: 'Colour X',
+    'B&W only': 'B&W',
+    'Full colour': 'Full Colour',
+    'Colour X': 'Colour X'
+  };
+  const status = String(data.status || '').toLowerCase();
+  const isPrinted = status === 'printed' || status === 'completed';
+  const mode = modeMap[data.color || data.mode] || data.color || data.mode || 'B&W';
+  const filename = data.file || data.filename || data.original_filename || 'document.pdf';
+  const copies = data.copies || 1;
+  const pages = data.pages || data.total_pages || '-';
+  const total = data.total || data.amount || '-';
+
+  el.innerHTML = `
+    <div class="order-card">
+      <div class="order-card-header">
+        <div>
+          <div style="font-size:11px;opacity:.7;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Print Token</div>
+          <div class="order-token">${escapeHtml(token)}</div>
+        </div>
+        <div class="order-badge ${isPrinted ? 'printed' : ''}">${isPrinted ? 'Printed' : 'Pending'}</div>
+      </div>
+      <div class="order-details">
+        <div class="detail-row">
+          <span class="detail-lbl">File</span>
+          <span class="detail-val mono">${escapeHtml(filename)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-lbl">Print mode</span>
+          <span class="detail-val">${escapeHtml(mode)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-lbl">Copies</span>
+          <span class="detail-val">${escapeHtml(copies)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-lbl">Pages</span>
+          <span class="detail-val">${escapeHtml(pages)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-lbl">Amount paid</span>
+          <span class="detail-val" style="color:var(--green);font-weight:600">₹${escapeHtml(total)}</span>
+        </div>
+      </div>
+      <div style="padding:0 16px 16px">
+        <button class="btn-print" id="printBtn-${escapeAttr(token)}" onclick="sendToPrinter('${escapeAttr(token)}', this)" ${isPrinted ? 'disabled' : ''}>
+          <i class="ti ti-printer"></i> ${isPrinted ? 'Already Printed' : 'Send to Printer'}
+        </button>
+      </div>
+    </div>
+  `;
+  el.classList.remove('hidden');
+}
+
+async function sendToPrinter(token, btn) {
+  const cleanToken = normalizeToken(token);
+  if (!cleanToken || !btn) return;
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Printing...';
+
+  try {
+    const response = await fetch('/print/' + encodeURIComponent(cleanToken));
+    const data = await response.json();
+    if (!response.ok || data.success === false) throw new Error(data.error || 'Print failed');
+
+    btn.innerHTML = '<i class="ti ti-check"></i> Sent to Printer!';
+    btn.style.background = 'var(--green)';
+
+    const badge = btn.closest('.order-card')?.querySelector('.order-badge');
+    if (badge) {
+      badge.textContent = 'Printed';
+      badge.classList.add('printed');
+    }
+    loadStats();
+  } catch (error) {
+    console.error('Print failed:', error);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-printer"></i> Send to Printer';
+    setStatus('scanStatus', 'error', 'Could not send token to printer');
+  }
+}
+
+async function startPrint(token) {
+  const cleanToken = normalizeToken(token);
+  if (!cleanToken) return;
+
+  try {
+    const response = await fetch('/start-print/' + encodeURIComponent(cleanToken), { method: 'POST' });
+    const data = await response.json();
+    if (!response.ok || data.success === false) throw new Error(data.error || 'Start print failed');
+    loadOrders();
+    loadStats();
+  } catch (error) {
+    console.error('Start print failed:', error);
+  }
+}
+
+async function loadOrders() {
+  const list = document.getElementById('ordersList');
+  if (!list) return;
+
+  list.innerHTML = '<div class="empty-state"><i class="ti ti-loader ti-spin"></i> Loading...</div>';
+
+  try {
+    const response = await fetch('/orders');
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Could not load orders');
+
+    if (!data.orders || data.orders.length === 0) {
+      list.innerHTML = '<div class="empty-state"><i class="ti ti-inbox"></i> No orders yet</div>';
+      return;
+    }
+
+    list.innerHTML = data.orders.map(order => {
+      const token = normalizeToken(order.token || order.order_id);
+      if (!token) return '';
+      const filename = escapeHtml(order.filename || order.file || 'document.pdf');
+      const copies = escapeHtml(order.copies || 1);
+      const mode = escapeHtml(order.color || order.mode || 'B&W');
+      return `
+        <div class="order-row">
+          <div onclick="switchTab('manual');document.getElementById('manualToken').value='${token.replace('NEXUS-', '')}';lookupToken();" style="cursor:pointer;flex:1">
+            <div class="order-row-token">${token}</div>
+            <div class="order-row-file">${filename} · ${copies} copy · ${mode}</div>
+          </div>
+          <button onclick="event.stopPropagation();startPrint('${token}')" style="padding:8px 14px;border:none;border-radius:8px;background:#2563eb;color:white;cursor:pointer;">
+            Start Print
+          </button>
+        </div>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error('Could not load orders:', error);
+    list.innerHTML = '<div class="empty-state"><i class="ti ti-wifi-off"></i> Could not load orders - is Flask running?</div>';
+  }
+}
+
+
+function setStatus(id, type, msg) {
+  const icons = {
+    scanning: 'ti-loader ti-spin',
+    success: 'ti-check',
+    error: 'ti-alert-circle',
+    idle: 'ti-info-circle'
+  };
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'status-bar ' + type;
+  el.innerHTML = `<i class="ti ${icons[type] || icons.idle}"></i> ${escapeHtml(msg)}`;
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value).replace(/`/g, '&#96;');
+}
+</script>
+
+</body>
+</html>
