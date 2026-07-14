@@ -868,7 +868,9 @@ def qr_code():
             "success": False,
             "error": "Missing or invalid JSON payload"
         }), 400
-
+git add .
+git commit -m "Updated UI and fixed bugs"
+git push
     raw_token = data.get('token')
     if isinstance(raw_token, dict):
         raw_token = raw_token.get('token')
