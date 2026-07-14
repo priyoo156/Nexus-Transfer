@@ -1,4 +1,2 @@
-Flask
-qrcode[pil]
-Pillow
+
 pip freeze > requirements.txt
