@@ -1326,9 +1326,14 @@ if __name__ == "__main__":
     logger.info(f"Status transitions: Pending→Printing→Completed")
     logger.info("═" * 80)
     
-    # Open browser after 1 second delay
-    Timer(1, open_browser).start()
+    # Get port from environment or default to 5000
+    port = int(os.environ.get("PORT", 5000))
+    debug_mode = os.environ.get("FLASK_ENV") != "production"
     
-    # Run development server
-    app.run(debug=True)
+    # Only open browser in development mode
+    if debug_mode:
+        Timer(1, open_browser).start()
+    
+    # Run Flask server
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)
 

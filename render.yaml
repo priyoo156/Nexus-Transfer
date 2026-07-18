@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: nexus-printing
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        scope: run
+        value: your_secret_key_here
+      - key: FLASK_ENV
+        value: production
